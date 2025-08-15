@@ -1,0 +1,144 @@
+openapi: 3.0.3
+info:
+  title: Login Backend API
+  version: 0.1.0
+  description: Simple authentication API with JWT access & refresh tokens.
+servers:
+  - url: http://localhost:3000
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  time:
+                    type: string
+                    format: date-time
+  /auth/register:
+    post:
+      summary: Register new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthCredentials'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: access_token & refresh_token cookies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '409':
+          description: Email already exists
+  /auth/login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthCredentials'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: access_token & refresh_token cookies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Invalid credentials
+  /auth/refresh:
+    post:
+      summary: Refresh tokens
+      description: Uses refresh_token httpOnly cookie.
+      responses:
+        '200':
+          description: OK - new tokens issued
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: New access_token & refresh_token cookies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Invalid or missing refresh token
+  /auth/me:
+    get:
+      summary: Get current user
+      security:
+        - accessCookie: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Unauthorized
+  /auth/logout:
+    post:
+      summary: Logout
+      responses:
+        '200':
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  securitySchemes:
+    accessCookie:
+      type: apiKey
+      in: cookie
+      name: access_token
+  schemas:
+    AuthCredentials:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+    UserResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'

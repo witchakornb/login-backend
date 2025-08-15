@@ -1,0 +1,27 @@
+{
+  "name": "login-backend",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "test": "node tests/run-tests.js",
+    "docs:test": "node scripts/validate-openapi.js && markdownlint README.md docs/**/*.md"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "@apidevtools/swagger-parser": "^10.0.3",
+    "markdownlint": "^0.32.1",
+    "markdownlint-cli": "^0.41.0"
+  }
+}
