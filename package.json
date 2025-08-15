@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "test": "node tests/run-tests.js",
-    "docs:test": "node scripts/validate-openapi.js && markdownlint README.md docs/**/*.md"
+  "test": "node tests/run-tests.js",
+  "docs:test": "node scripts/validate-openapi.js && markdownlint README.md docs/**/*.md",
+  "test:e2e": "playwright test"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -22,6 +23,7 @@
     "nodemon": "^3.1.4",
     "@apidevtools/swagger-parser": "^10.0.3",
     "markdownlint": "^0.32.1",
-    "markdownlint-cli": "^0.41.0"
+  "markdownlint-cli": "^0.41.0",
+  "@playwright/test": "^1.46.0"
   }
 }

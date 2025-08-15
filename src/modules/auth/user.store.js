@@ -8,8 +8,8 @@ class UserStore {
   }
 
   create({ email, passwordHash }) {
-    const id = crypto.randomUUID();
-    const user = { id, email: email.toLowerCase(), passwordHash, createdAt: new Date().toISOString() };
+  const id = crypto.randomUUID();
+  const user = { id, email: email.toLowerCase(), passwordHash, createdAt: new Date().toISOString() };
     this.users.set(id, user);
     this.byEmail.set(user.email, id);
     return user;

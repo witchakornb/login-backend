@@ -52,11 +52,11 @@ const server = app.listen(0);
     assert.equal(logout.status, 200);
 
     // Login
-    const login = await request('POST', '/auth/login', { email: 'test@example.com', password: 'secret123' });
-    assert.equal(login.status, 200);
+  const login = await request('POST', '/auth/login', { email: 'test@example.com', password: 'secret123' });
+  assert.equal(login.status, 200);
 
-    console.log('All tests passed');
-    server.close(() => process.exit(0));
+  console.log('All tests passed');
+  server.close(() => process.exit(0));
   } catch (e) {
     console.error('Test failed', e);
     server.close();
